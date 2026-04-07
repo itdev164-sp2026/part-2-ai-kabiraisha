@@ -1,75 +1,89 @@
-import { Code, Cpu, Layout, Rocket, Server, ShieldCheck } from "lucide-react";
+import {
+  Code2,
+  Figma,
+  GitBranch,
+  Globe,
+  LayoutGrid,
+  Smartphone,
+} from "lucide-react";
 
-const assignments = [
+const skills = [
   {
-    week: 1,
-    title: "Setup & Next.js Scaffolding",
-    description: "Initialize your project, configure tooling, and verify your AI-assisted workflow.",
-    icon: Rocket,
+    title: "HTML & CSS",
+    description: "Building semantic, accessible interfaces with solid layout fundamentals.",
+    icon: Globe,
   },
   {
-    week: 2,
-    title: "Agentic UI with Shadcn",
-    description: "Build dashboard layouts and reusable components with Shadcn/ui and Tailwind.",
-    icon: Layout,
+    title: "JavaScript",
+    description: "Writing interactive front-end features and understanding core language patterns.",
+    icon: Code2,
   },
   {
-    week: 3,
-    title: "Server Components & Data Fetching",
-    description: "Leverage React Server Components and async data patterns in the App Router.",
-    icon: Server,
+    title: "React",
+    description: "Creating component-based user interfaces with modern React development workflows.",
+    icon: LayoutGrid,
   },
   {
-    week: 4,
-    title: "AI-Driven Forms & Validation",
-    description: "Create forms with Zod schemas and Server Actions for type-safe data handling.",
-    icon: Code,
+    title: "Responsive Design",
+    description: "Designing pages that adapt cleanly across mobile, tablet, and desktop screens.",
+    icon: Smartphone,
   },
   {
-    week: 5,
-    title: "Full-Stack Integration",
-    description: "Connect Supabase for authentication, database operations, and real-time data.",
-    icon: Cpu,
+    title: "Tailwind CSS",
+    description: "Styling quickly with utility classes while keeping layouts consistent and maintainable.",
+    icon: Figma,
   },
   {
-    week: 6,
-    title: "Deployment & AI Testing",
-    description: "Deploy to Vercel, set up webhooks, and write AI-assisted tests.",
-    icon: ShieldCheck,
+    title: "Git & GitHub",
+    description: "Tracking changes, collaborating on projects, and managing source control confidently.",
+    icon: GitBranch,
   },
 ];
 
 export default function HomePage() {
   return (
-    <div className="space-y-8">
-      <section className="space-y-2">
-        <h1 className="text-3xl font-bold tracking-tight">
-          Course Dashboard
-        </h1>
-        <p className="text-muted-foreground">
-          ITDEV-164 — Web Programming 2: AI-native full-stack development with
-          Next.js, Tailwind&nbsp;CSS, and Supabase.
-        </p>
+    <div className="space-y-10">
+      <section className="space-y-4 rounded-2xl border border-border bg-card p-6 shadow-sm sm:p-8">
+        <div className="inline-flex rounded-full border border-border bg-muted/70 px-3 py-1 text-xs font-medium tracking-wide text-muted-foreground uppercase">
+          Developer Profile
+        </div>
+        <div className="space-y-3">
+          <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
+            Aisha Kabir
+          </h1>
+          <p className="max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
+            I am a web development student learning how to build thoughtful,
+            responsive user experiences with modern frontend tools. I enjoy
+            turning ideas into clean interfaces and improving my skills through
+            hands-on projects.
+          </p>
+        </div>
       </section>
 
-      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {assignments.map(({ week, title, description, icon: Icon }) => (
-          <div
-            key={week}
-            className="group rounded-lg border border-border bg-card p-5 transition-colors hover:border-primary/40"
-          >
-            <div className="mb-3 flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-md bg-muted">
-                <Icon className="h-5 w-5 text-muted-foreground transition-colors group-hover:text-primary" />
+      <section className="space-y-4">
+        <div className="space-y-1">
+          <h2 className="text-2xl font-semibold tracking-tight">Skills</h2>
+          <p className="text-sm text-muted-foreground">
+            A snapshot of the tools and workflows I am building with.
+          </p>
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {skills.map((skill) => (
+            <article
+              key={skill.title}
+              className="group rounded-xl border border-border bg-card p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-md"
+            >
+              <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-lg bg-muted transition-colors group-hover:bg-primary/10">
+                <skill.icon className="h-5 w-5 text-primary" aria-hidden="true" />
               </div>
-              <span className="text-xs font-medium tracking-wider text-muted-foreground uppercase">
-                Week {week}
-              </span>
-            </div>
-            <h2 className="mb-1 font-semibold leading-snug">{title}</h2>
-            <p className="text-sm text-muted-foreground">{description}</p>
-          </div>
-        ))}
+              <h3 className="text-base font-semibold leading-tight">{skill.title}</h3>
+              <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                {skill.description}
+              </p>
+            </article>
+          ))}
+        </div>
       </section>
     </div>
   );
