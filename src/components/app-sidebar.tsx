@@ -14,7 +14,6 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarRail,
 } from "@/components/ui/sidebar";
 
 const navItems = [
@@ -39,15 +38,13 @@ export function AppSidebar() {
   const pathname = usePathname();
 
   return (
-    <Sidebar collapsible="icon" variant="sidebar">
+    <Sidebar collapsible="offcanvas">
       <SidebarHeader>
-        <div className="flex items-center gap-2 overflow-hidden px-2 group-data-[collapsible=icon]:px-0 group-data-[collapsible=icon]:justify-center">
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-primary text-sm font-semibold text-primary-foreground">
+        <div className="flex items-center gap-2 px-2">
+          <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground font-semibold">
             AK
           </div>
-          <span className="truncate text-sm font-semibold tracking-tight group-data-[collapsible=icon]:hidden">
-            Dashboard
-          </span>
+          <span className="text-sm font-semibold tracking-tight">Dashboard</span>
         </div>
       </SidebarHeader>
       <SidebarContent>
@@ -64,7 +61,6 @@ export function AppSidebar() {
                     <SidebarMenuButton
                       asChild
                       isActive={isActive}
-                      tooltip={item.title}
                       className="cursor-pointer"
                     >
                       <Link href={item.href}>
@@ -79,7 +75,6 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarRail />
     </Sidebar>
   );
 }

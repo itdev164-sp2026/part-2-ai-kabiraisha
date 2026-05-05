@@ -75,23 +75,21 @@ Keep the dark mode toggle working.
 
 **What happened:**
 The agent created a professional dashboard layout with the shadcn sidebar components. It created a new breadcrumb navigation component with the file nav-breadcrumbs.tsx and updated layout.tsx
-> (Describe how the Agent handled multiple files. Did it create
-> app-sidebar.tsx correctly? Did it modify layout.tsx as expected?)
+
 
 ### Prompt 2
 
 **What I asked:**
 
-> (Paste any follow-up prompt — maybe a responsive fix, a styling
-> adjustment, or recovering from an Agent mistake)
+The sidebar is not responsive on desktop. It should collapse into a sheet
+(slide-out panel) that opens when clicking a trigger button. The shadcn
+Sidebar component supports this with the "offcanvas" variant or by using
+SidebarTrigger. Please fix the mobile behavior.
 
 **What happened:**
 
-> (Describe the result. Did the Agent fix the issue on the first try?)
+The agent fixed the collapsible button and made it slide out on desktop.
 
 ### Reflection
 
-> Did the Agent accidentally delete or overwrite any of your Activity 1
-> code? If so, how did you recover? (Copilot Edits has an "Undo" /
-> "Revert" button — did you use it?) What did you learn about giving
-> the Agent context about existing code you want to preserve?
+The only error the agent made was not having the sidebar open and responsive on desktop which was an easy fix. The agent also didn't break any of my codes from activity 1.
