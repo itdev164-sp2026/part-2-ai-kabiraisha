@@ -46,3 +46,50 @@ It did everything I asked of it except it added new components that I didn't req
 > to direct an AI to build something for you? What surprised you?
 > What would you do differently next time?
 It felt amazing at the same time a little nerve wracking. I do not know exactly why I was nervous. Maybe it's because I sometimes prefer things a specific way and the thought of possibly having to deal with errors that I did not write in the future makes me a little nervous. Overall, I do think it will be an amazing tool for debugging codes and learning from my mistakes as a beginner. I cannot wait to use it for that specific purpose.
+
+-------------------------------------------------------
+
+## Activity 2: Building the Dashboard Shell
+
+### Prompt 1
+
+**What I asked:**
+
+Using the shadcn sidebar components that are now in my src/components/ui/ folder,
+create a professional, collapsible dashboard layout. It should include:
+
+1. A sidebar (src/components/app-sidebar.tsx) with navigation links for:
+   - Overview (use the Home icon from lucide-react)
+   - Projects (use the FolderOpen icon)
+   - Settings (use the Settings icon)
+
+2. A top navigation area with breadcrumbs showing the current page.
+
+3. A main content area that wraps the existing page content.
+
+4. Update src/app/layout.tsx to use the new SidebarProvider and sidebar layout.
+
+Important: Preserve the Developer Profile content from Activity 1 in
+src/app/page.tsx — it should appear in the main content area of the new layout.
+Keep the dark mode toggle working.
+
+**What happened:**
+The agent created a professional dashboard layout with the shadcn sidebar components. It created a new breadcrumb navigation component with the file nav-breadcrumbs.tsx and updated layout.tsx
+
+
+### Prompt 2
+
+**What I asked:**
+
+The sidebar is not responsive on desktop. It should collapse into a sheet
+(slide-out panel) that opens when clicking a trigger button. The shadcn
+Sidebar component supports this with the "offcanvas" variant or by using
+SidebarTrigger. Please fix the mobile behavior.
+
+**What happened:**
+
+The agent fixed the collapsible button and made it slide out on desktop.
+
+### Reflection
+
+The only error the agent made was not having the sidebar open and responsive on desktop which was an easy fix. The agent also didn't break any of my codes from activity 1.
