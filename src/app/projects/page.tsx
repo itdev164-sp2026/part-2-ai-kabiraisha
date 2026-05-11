@@ -1,5 +1,7 @@
+import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 import {
   Card,
@@ -43,14 +45,19 @@ export default async function ProjectsPage() {
         <div className="inline-flex rounded-full border border-border bg-muted/70 px-3 py-1 text-xs font-medium tracking-wide text-muted-foreground uppercase">
           Projects
         </div>
-        <div className="space-y-2">
-          <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            Project Portfolio
-          </h1>
-          <p className="max-w-2xl text-sm leading-6 text-muted-foreground sm:text-base">
-            A server-rendered view of the latest records from Supabase,
-            arranged in a clean dashboard grid.
-          </p>
+        <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-start">
+          <div className="space-y-2">
+            <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
+              Project Portfolio
+            </h1>
+            <p className="max-w-2xl text-sm leading-6 text-muted-foreground sm:text-base">
+              A server-rendered view of the latest records from Supabase,
+              arranged in a clean dashboard grid.
+            </p>
+          </div>
+          <Link href="/projects/new">
+            <Button className="whitespace-nowrap">New Project</Button>
+          </Link>
         </div>
       </section>
 
