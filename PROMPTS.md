@@ -93,3 +93,52 @@ The agent fixed the collapsible button and made it slide out on desktop.
 ### Reflection
 
 The only error the agent made was not having the sidebar open and responsive on desktop which was an easy fix. The agent also didn't break any of my codes from activity 1.
+
+
+## Activity 3: Server-Side Data with Supabase
+
+### Prompt 1
+
+**What I asked:**
+
+Using the Supabase client at src/lib/supabase.ts, create a new Server Component
+at src/app/projects/page.tsx that:
+
+1. Fetches all records from the "projects" table in Supabase
+2. Displays them in a professional layout using shadcn/ui Card components
+   (run `npx shadcn@latest add card` if needed)
+3. Each card should show the project title, description, and a status badge
+4. The status badge should be color-coded:
+   - "active" = green
+   - "completed" = blue
+   - "archived" = gray
+
+Use @workspace context to match the styling of our existing Dashboard.
+This must be a React Server Component (async function, no "use client").
+Do NOT use useEffect or useState for data fetching.
+
+**What happened:**
+
+> (Did the Agent create a Server Component or a Client Component?
+The agent created a server component file that fetches projects and renders shadcn card components. It also added a shadcn card component to the project and matched the dashboard's existing layout patterns. It added a color coded status on each new card in the project page.
+> Did it use async/await or useEffect? Did you have to correct it?)
+The Agent used an asynchronous function in page.tsx but did not use useEffect or useState.
+
+### Prompt 2
+**What I asked:**
+
+The breadcrumb in src/app/layout.tsx always shows "Overview" because the page
+name is hardcoded. Extract the breadcrumb into its own client component at
+src/components/breadcrumb-nav.tsx that uses usePathname() from next/navigation
+to display the correct page name. Map "/" to "Overview", "/projects" to
+"Projects", and "/settings" to "Settings". Keep "ITDEV-164" as the first
+breadcrumb segment. Then update layout.tsx to use the new component.
+
+
+**What happened:**
+
+The agent replaced the hardcoded breadcrumb with a pathname-aware client component in nav-breadcrumbs.tsx. It then updated layout.tsx by removing the old hardcoded breadcrumb component and replaced it with importing the new component in layout.tsx
+
+### Reflection
+
+Server-side data fetching feels much cleaner and more direct than the useEffect pattern from Web Programming 1. Instead of loading the page first and then fetching the data after, the App Router lets the data be fetched before the page renders. The biggest advantage I noticed is that there is less code to write because I did not need useState, useEffect, or a separate loading pattern just to display the projects. It also made the page feel more organized because the Supabase query stayed directly inside the server component where the data was being used. What surprised me most was how simple it was to use async/await right inside page.tsx and still render a professional page without needing to turn it into a client component.
