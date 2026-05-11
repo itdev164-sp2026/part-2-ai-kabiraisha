@@ -142,3 +142,65 @@ The agent replaced the hardcoded breadcrumb with a pathname-aware client compone
 ### Reflection
 
 Server-side data fetching feels much cleaner and more direct than the useEffect pattern from Web Programming 1. Instead of loading the page first and then fetching the data after, the App Router lets the data be fetched before the page renders. The biggest advantage I noticed is that there is less code to write because I did not need useState, useEffect, or a separate loading pattern just to display the projects. It also made the page feel more organized because the Supabase query stayed directly inside the server component where the data was being used. What surprised me most was how simple it was to use async/await right inside page.tsx and still render a professional page without needing to turn it into a client component.
+
+
+## Activity 4: AI-Driven Forms & Validation
+
+### Prompt 1
+
+**What I asked:**
+
+Create a Zod validation schema in a new file src/lib/schemas.ts for a "Project"
+with the following fields:
+
+- title: string, minimum 3 characters, with a custom error message
+  "Title must be at least 3 characters"
+- description: string, minimum 10 characters, with a custom error message
+  "Description must be at least 10 characters"
+- status: enum with values "active", "completed", "archived"
+
+Export the schema and also export the inferred TypeScript type using z.infer.
+
+**What happened:**
+
+The Agent created the schema correctly in src/lib/schemas.ts. It added a projectSchema with the correct validation rules and custom error messages. It also exported the inferred TypeScript type using z.infer, so the schema can be reused for type safety.
+
+### Prompt 2
+
+**What I asked:**
+
+Using the Zod schema from src/lib/schemas.ts, do the following:
+
+1. Create a form component at src/components/project-form.tsx that:
+   - Is a Client Component ("use client") because it uses react-hook-form hooks
+   - Uses react-hook-form with the zodResolver from @hookform/resolvers for validation
+   - Uses shadcn/ui Field, FieldLabel, and FieldError for field layout
+   - Uses shadcn/ui Input for title, Textarea for description, and Select for status
+   - Shows inline error messages under each field when validation fails
+   - Has a "Create Project" submit button
+   - Shows a sonner toast notification on successful submission
+
+2. Create a Server Action at src/app/actions.ts that:
+   - Has "use server" at the top of the file
+   - Accepts the validated form data
+   - Validates it again with the Zod schema using projectSchema
+   - Inserts the validated data into the Supabase "projects" table
+   - Returns a success or error response
+
+3. Create a new page at src/app/projects/new/page.tsx that renders
+   the project form within the dashboard layout.
+
+4. Add a "New Project" button to the existing projects page
+   src/app/projects/page.tsx that links to /projects/new.
+
+Use @workspace to match the existing project styling.
+
+**What happened:**
+
+The Agent handled creating multiple files well. It created src/components/project-form.tsx, src/app/actions.ts, and src/app/projects/new/page.tsx. It also updated the existing projects page to include a “New Project” button linking to /projects/new. The form submission was connected to the Server Action correctly, and the Server Action included "use server" at the top with server-side Zod validation using the project schema.
+
+
+
+### Reflection
+
+The Schema-First approach with Zod makes forms feel way more organized to me because everything is defined in one place instead of having validation logic all over the app. I like that the same schema can be reused for both the form and the Server Action, so there’s less repetition and less chance of mistakes. It helps prevent junk data from getting into the database because the data gets validated twice; once on the client side before submission and again on the server before it gets inserted into Supabase. In previous courses, validation was mostly just HTML required fields or manual JavaScript checks, which felt easier to miss or bypass. Using Zod feels cleaner, more professional, and a lot more secure.

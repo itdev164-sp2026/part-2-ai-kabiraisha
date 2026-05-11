@@ -10,6 +10,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { BreadcrumbNav } from "../components/breadcrumb-nav";
@@ -61,6 +62,7 @@ export default function RootLayout({
             </SidebarProvider>
           </TooltipProvider>
         </ThemeProvider>
+        <Toaster />
       </body>
     </html>
   );
