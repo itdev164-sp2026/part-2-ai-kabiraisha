@@ -1,8 +1,11 @@
-"use client"
+"use client";
 
+import type { User } from "@supabase/supabase-js";
 import { Home, FolderOpen, Settings } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { signOutAction } from "@/app/actions";
+import { Button } from "@/components/ui/button";
 
 import {
   Sidebar,
@@ -15,6 +18,10 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+
+type AppSidebarProps = {
+  user: User | null;
+};
 
 const navItems = [
   {
@@ -34,7 +41,7 @@ const navItems = [
   },
 ];
 
-export function AppSidebar() {
+export function AppSidebar({ user }: AppSidebarProps) {
   const pathname = usePathname();
 
   return (
@@ -74,6 +81,29 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+
+        {user ? (
+          <SidebarGroup>
+            <SidebarGroupLabel>Account</SidebarGroupLabel>
+            <SidebarGroupContent className="space-y-3 px-2">
+              <div className="space-y-1">
+                <p className="text-xs font-medium text-muted-foreground">
+                  Signed in as
+                </p>
+                <p className="truncate text-sm font-medium">{user.email}</p>
+              </div>
+              <form action={signOutAction}>
+                <Button
+                  type="submit"
+                  variant="outline"
+                  className="w-full justify-start"
+                >
+                  Sign Out
+                </Button>
+              </form>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        ) : null}
       </SidebarContent>
     </Sidebar>
   );

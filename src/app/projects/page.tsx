@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { supabase } from "@/lib/supabase";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 import {
   Card,
@@ -29,6 +29,7 @@ function formatStatus(status: string | null) {
 }
 
 export default async function ProjectsPage() {
+  const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase
     .from("projects")
     .select("id, title, description, status");
