@@ -14,6 +14,7 @@ import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { BreadcrumbNav } from "../components/breadcrumb-nav";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
@@ -27,11 +28,16 @@ export const metadata: Metadata = {
   description: "Developer profile for Aisha Kabir, a web development student building responsive interfaces with modern frontend tools.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   return (
     <html lang="en" suppressHydrationWarning className={cn("font-sans", geist.variable)}>
       <body className={`${inter.variable} font-sans antialiased`}>
@@ -43,7 +49,7 @@ export default function RootLayout({
         >
           <TooltipProvider delayDuration={0}>
             <SidebarProvider defaultOpen>
-              <AppSidebar />
+              <AppSidebar user={user} />
               <SidebarInset className="min-h-svh">
                 <header className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-2 border-b border-border bg-background/95 px-4 backdrop-blur supports-backdrop-filter:bg-background/80">
                   <SidebarTrigger className="-ml-1" />

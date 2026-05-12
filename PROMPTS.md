@@ -204,3 +204,53 @@ The Agent handled creating multiple files well. It created src/components/projec
 ### Reflection
 
 The Schema-First approach with Zod makes forms feel way more organized to me because everything is defined in one place instead of having validation logic all over the app. I like that the same schema can be reused for both the form and the Server Action, so there’s less repetition and less chance of mistakes. It helps prevent junk data from getting into the database because the data gets validated twice; once on the client side before submission and again on the server before it gets inserted into Supabase. In previous courses, validation was mostly just HTML required fields or manual JavaScript checks, which felt easier to miss or bypass. Using Zod feels cleaner, more professional, and a lot more secure.
+
+
+
+ ## Activity 5: Securing the App with Supabase Auth
+
+### Prompt 1
+
+Implement a complete email/password authentication flow for this Next.js 15
+App Router project using @supabase/ssr. Here is what I need:
+
+1. SUPABASE CLIENTS: Create server-side Supabase client utilities in
+   src/lib/supabase/ that work correctly with Next.js cookies. I need
+   separate clients for Server Components, Server Actions, and Middleware.
+
+2. LOGIN PAGE: Create a page at src/app/(auth)/login/page.tsx with a
+   shadcn/ui card-based login form. It should support both "Sign In"
+   and "Sign Up" (toggle between them or use tabs). Handle the auth
+   via Server Actions, not client-side fetch.
+
+3. MIDDLEWARE: Create a middleware.ts file at src/middleware.ts (next to
+   the app directory — Next.js looks for middleware as a sibling of app)
+   that:
+   - Refreshes the user's auth session on every request
+   - Protects the /projects routes — redirect unauthenticated users to /login
+   - Allows unauthenticated access to /login
+   - Uses supabase.auth.getUser() (NOT getSession()) for verification
+
+4. SIGN OUT: Add a "Sign Out" button to the existing sidebar component
+   (src/components/app-sidebar.tsx) that calls a Server Action to sign
+   the user out and redirect to /login. The button must only render
+   when an authenticated user is present — pass the user as a prop from
+   the root layout (which will need to fetch it via the server Supabase
+   client) and gate the Sign Out UI on that prop.
+
+5. UPDATE DATA QUERIES: Modify the projects page and the create-project
+   Server Action to use the authenticated Supabase client so that RLS
+   policies filter data per user.
+
+Use @workspace to understand the existing project structure. Do not remove or break existing functionality — integrate auth around it.
+
+
+**What happened:**
+
+The Agent implemented the Supabase authentication setup across the app. It created helper files for authenticated Supabase access in src/lib/supabase/server.ts, src/lib/supabase/action.ts, and src/lib/supabase/middleware.ts, then connected the middleware through src/middleware.ts. It also added the login flow by creating a login page and login form component. The sidebar was updated with sign-out functionality using a Server Action from src/app/actions.ts. The dashboard layout was updated to fetch the authenticated user, and the projects page now uses the authenticated Supabase client so Row Level Security can filter projects per user automatically.
+
+
+
+### Reflection
+
+The Agent handled middleware.ts by creating the middleware helper files first, then adding the main src/middleware.ts file to connect everything together. I did not have to manually add every file to the Working Set because the Agent was able to look through the project and find the files it needed for context. What surprised me was how many different files had to change just to add authentication. It was not only a login page. It also needed Supabase helper files, middleware, server actions, the layout, the sidebar, and the projects page. Middleware-based auth feels cleaner than checking login status inside every page component because it handles authentication before the page loads. Instead of repeating the same login check on every page, the middleware helps protect routes in one central place. It makes the app feel more organized and more secure.
