@@ -254,3 +254,73 @@ The Agent implemented the Supabase authentication setup across the app. It creat
 ### Reflection
 
 The Agent handled middleware.ts by creating the middleware helper files first, then adding the main src/middleware.ts file to connect everything together. I did not have to manually add every file to the Working Set because the Agent was able to look through the project and find the files it needed for context. What surprised me was how many different files had to change just to add authentication. It was not only a login page. It also needed Supabase helper files, middleware, server actions, the layout, the sidebar, and the projects page. Middleware-based auth feels cleaner than checking login status inside every page component because it handles authentication before the page loads. Instead of repeating the same login check on every page, the middleware helps protect routes in one central place. It makes the app feel more organized and more secure.
+
+
+## Activity 6: Deployment, Webhooks, & AI-Testing
+
+### Prompt 1
+
+**What I asked:**
+
+I have a Next.js app with Supabase Auth. Using @workspace context to
+understand the app structure, write an End-to-End (E2E) test file at
+tests/auth.spec.ts using Playwright.
+
+The tests should verify:
+
+1. LOGIN PAGE VISIBLE: Navigate to /login and confirm the login form
+   is visible (check for email input, password input, and submit button).
+
+2. REDIRECT AFTER LOGIN: After a successful login with valid credentials,
+   the user is redirected to the dashboard or projects page.
+
+3. SIDEBAR NAVIGATION: After login, verify that the sidebar navigation
+   links are visible: "Overview", "Projects", and "Settings".
+
+Requirements:
+- Use role-based locators (getByRole, getByLabel, getByText) instead of
+  CSS selectors or test IDs. This makes tests more accessible and resilient
+  to UI changes.
+- Add clear test descriptions that explain what each test verifies.
+- Handle the async nature of navigation and page loads with proper
+  Playwright waiting strategies.
+- Read test credentials from process.env.TEST_USER_EMAIL and
+  process.env.TEST_USER_PASSWORD. Do not hardcode credentials. If those
+  variables are not set, the credentialed tests should skip with a clear
+  message rather than fail.
+
+**What happened:**
+The Agent created the Playwright test file and used role-based locators like I asked. It understood that the app used Supabase Auth and that the login credentials should come from process.env.TEST_USER_EMAIL and process.env.TEST_USER_PASSWORD instead of being hardcoded. The tests did not fully pass on the first run because the “Projects” link matched more than one element on the page.
+
+### Prompt 2
+
+**What I asked:**
+
+This Playwright test is failing with the following error:
+ 2) tests/auth.spec.ts:38:7 › Supabase auth flow › shows Overview, Projects, and Settings links in the sidebar after login 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('link', { name: 'Projects' })
+    Expected: visible
+    Error: strict mode violation: getByRole('link', { name: 'Projects' }) resolved to 2 elements:
+        1) <a href="/projects" data-active="true" data-size="default" data-sidebar="menu-button" data-slot="sidebar-menu-button" class="peer/menu-button group/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left ring-sidebar-ring outline-hidden transition-[width,height,padding] group-has-data-[sidebar=menu-action]/menu-item:pr-8 group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-fore…>…</a> aka locator('ul').getByRole('link', { name: 'Projects' })
+        2) <span role="link" aria-current="page" aria-disabled="true" data-slot="breadcrumb-page" class="font-normal text-foreground">Projects</span> aka getByLabel('breadcrumb').getByRole('link', { name: 'Projects' })
+
+Look at the actual component code in @workspace and fix the test
+to match the real UI. Use role-based locators
+
+**What happened:**
+
+The Agent used the error message and the workspace context to understand that the locator was too broad. It fixed the test by making the locator more specific to the sidebar instead of matching the breadcrumb too. It only took one follow-up round to identify the issue and adjust the test so it matched the real UI better.
+
+### Reflection
+
+Having AI write and run tests makes me feel more confident about hitting the deploy button because it checks important user flows before I assume everything works. It is helpful because the Agent can test things I might forget to click through manually, like whether the login page renders correctly, whether login redirects properly, and whether the sidebar navigation appears after login. The Agent also caught an issue I probably would have missed at first, which was that the test was finding two “Projects” links because one was in the sidebar and one was in the breadcrumb. Manually testing in the browser can confirm that something looks right, but automated tests are better because they can repeat the same checks every time. It made deployment feel less like guessing and more like verifying.
+
+### Course Reflection
+
+Looking back from Activity 1 to Activity 6, I can tell my prompting strategy became a lot more intentional and detailed. In the beginning, I was giving broad prompts and hoping the Agent would understand exactly what I meant. Sometimes it did, but other times it added things I did not want or structured things differently than I imagined. That taught me quickly that the quality of the result depends heavily on how specific I am. 
+As the activities went on, I started including exact file paths, frameworks, component requirements, validation rules, and even instructions like “do not use useEffect” or “use role-based locators.” I also became better at using the workspace context and pasting full terminal errors instead of just saying something was broken. By the time I got to authentication and Playwright testing, I noticed I was thinking more like a developer and less like someone just asking AI to “build something.”
+One thing that really surprised me was how much I still needed to understand the code even when the AI generated most of it. At first, I thought AI coding tools would feel almost like magic, but I realized pretty quickly that if I do not understand what the code is doing, debugging becomes stressful. That nervousness I mentioned in Activity 1 actually helped me stay careful and pay attention to the architecture instead of blindly accepting everything.
+The most important thing I learned is that AI coding tools are strongest when they are used as collaborators instead of replacements for learning. The Agent helped me move faster, but I still needed to review the logic, understand the flow, and guide it toward the result I actually wanted. I also learned that debugging with AI is one of the most valuable parts because I could paste real errors, ask follow-up questions, and learn from the fixes in real time.
